@@ -1,69 +1,7 @@
-import Image from "next/image";
+import { JourneyGraphic } from '@/components/site-motion';
+import { BrandMotion } from '@/components/brand-motion';
+import Link from 'next/link';
+import { Icon, ServiceCard } from '@/components/store';
+import { photos, services } from '@/lib/data';
+export default function Home() { return <><section className="hero"><img className="hero-image" src={photos.hero} alt="Lake and mountain village in the European Alps"/><div className="hero-shade"/><JourneyGraphic/><div className="hero-content"><div className="hero-pill"><span /> Your next chapter starts here</div><h1>A world of possibilities.<br /><em>One trusted guide.</em></h1><p>From the first document to your next destination.<br />Personal immigration and travel assistance, every step of the way.</p><div className="hero-buttons"><Link className="button orange" href="/catalog">Explore our services <Icon name="arrow"/></Link><Link className="hero-link" href="/contact">Let’s plan your next move <Icon name="external" className="inline-icon"/></Link></div></div><div className="hero-bottom"><span><Icon name="plane"/> Less paperwork. More possibility.</span><span>YOUR JOURNEY, THOUGHTFULLY PLANNED</span></div><div className="destination-label">YOUR NEXT DESTINATION <span>A WORLD OF POSSIBILITIES</span></div></section><section className="trust-strip"><span>With you, from start to departure</span><span><Icon name="check"/> Personal guidance</span><span><Icon name="check"/> Clear next steps</span><span><Icon name="check"/> Connected worldwide</span><span><Icon name="check"/> Human support</span></section><section className="section services-section"><div className="section-heading"><div><h2>Big plans.<br /><em>Made easier.</em></h2><p>A new home, a new opportunity, or a long-awaited trip.<br />Find the right support for whatever comes next.</p></div><Link className="text-link" href="/catalog">View all services <Icon name="arrow"/></Link></div><div className="service-grid">{[services[0], services[2], services[5]].map(s => <ServiceCard key={s.slug} service={s}/>)}</div></section><section className="story-section"><div className="story-photo"><img src={photos.japan} alt="Traditional street in Kyoto, Japan" loading="lazy"/><span>Every journey has a story.<br />Let’s begin yours.</span></div><div className="story-copy"><h2>More than paperwork.<br /><em>A partner in your journey.</em></h2><p>Moving forward can feel complicated. It doesn’t have to feel lonely. Docs2Travel helps you navigate immigration applications, travel arrangements and the documents that connect them.</p><p>We take the time to understand your plans, explain your options, and help you prepare for the next step.</p><Link className="text-link" href="/about">Meet Docs2Travel <Icon name="arrow"/></Link></div></section><section className="section process"><div className="section-heading"><h2>Your next chapter,<br /><em>in three simple steps.</em></h2><p>Real people. Practical guidance.<br />From the first hello to the next step.</p></div><div className="steps">{[['Tell us your plans', 'Choose a service or talk to us about where you want to go.'], ['Let’s make a plan', 'An advisor confirms the requirements, scope and your personalized quote.'], ['Move forward together', 'Get assistance preparing your application and arranging your travel.']].map(([h, p], i) => <div key={h}><span>0{i + 1}</span><h3>{h}</h3><p>{p}</p></div>)}</div></section><section className="cta"><BrandMotion className="cta-emblem"/><div><h2>The world is waiting.<br /><em>Let’s get you ready.</em></h2><p>Your documents. Your travel. Our assistance.</p></div><Link href="/contact" className="button cream">Start a conversation <Icon name="arrow"/></Link></section></>; }
 
-export default function Home() {
-  return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
-}

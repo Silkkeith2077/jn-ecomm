@@ -1,36 +1,10 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Docs2Travel
+Next.js service commerce website for an immigration accompaniment agency.
 
-## Getting Started
+Run `npm run dev` and open http://localhost:3000. Validate with `npm run lint` and `npm run build`.
 
-First, run the development server:
+Includes home, about, service directory, searchable/filterable catalog, service details, persistent browser cart, quote checkout and WhatsApp contact handoff. Payments are intentionally omitted. No database or external service infrastructure.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Configure the business phone and Telegram/X URLs in `lib/data.ts`. Telegram and X show a truthful WhatsApp fallback until account URLs are configured. Prices require a personalized quote. Inquiry forms prepare messages; visitors must send them in WhatsApp. No server-side submission or order storage. Cart is saved only in the visitor’s browser.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The original Facebook image could not be accessed. The original logo uses a document and aircraft symbol; the website uses destination photography from Unsplash and Google Fonts. Replace or self-host remote assets before production if desired.

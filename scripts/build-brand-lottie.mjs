@@ -1,0 +1,20 @@
+// Convert supplied SVG geometry to editable Lottie shape layers with trim-path drawing.
+import fs from 'node:fs';
+import svgpath from 'svgpath';
+import { DOMParser } from '@xmldom/xmldom';
+const doc = new DOMParser().parseFromString(fs.readFileSync('public/brand/docs2travel-icon.svg','utf8'),'image/svg+xml');
+const colors = {globeBlue:'#0284C7',accentCyan:'#38BDF8',goldRibbon:'#E5A93C',docNavy:'#0F284E',docPage:'#F0F9FF',planeGold:'#F59E0B',planeHighlight:'#FDE68A'};
+const staticValue=k=>({a:0,k});
+const tween=(start,end,from,to)=>({a:1,k:[{t:start,s:[from],e:[to],i:{x:[.6],y:[1]},o:{x:[.3],y:[0]}},{t:end,s:[to]}]});
+const color=value=>{const hex=colors[(value||'').match(/#([^)]*)/)?.[1]]||value||'#0284C7';return [1,3,5].map(i=>parseInt(hex.slice(i,i+2),16)/255).concat(1)};
+const collected=[];
+function pathData(el){const n=k=>Number(el.getAttribute(k)||0);switch(el.tagName){case 'path':return el.getAttribute('d');case 'line':return `M${n('x1')} ${n('y1')}L${n('x2')} ${n('y2')}`;case 'circle':{const x=n('cx'),y=n('cy'),r=n('r'),c=r*.55228475;return `M${x+r} ${y}C${x+r} ${y+c} ${x+c} ${y+r} ${x} ${y+r}C${x-c} ${y+r} ${x-r} ${y+c} ${x-r} ${y}C${x-r} ${y-c} ${x-c} ${y-r} ${x} ${y-r}C${x+c} ${y-r} ${x+r} ${y-c} ${x+r} ${y}Z`;}case 'rect':{const x=n('x'),y=n('y'),w=n('width'),h=n('height'),r=n('rx');return `M${x+r} ${y}H${x+w-r}Q${x+w} ${y} ${x+w} ${y+r}V${y+h-r}Q${x+w} ${y+h} ${x+w-r} ${y+h}H${x+r}Q${x} ${y+h} ${x} ${y+h-r}V${y+r}Q${x} ${y} ${x+r} ${y}Z`;}}}
+function visit(el,transforms='',part='globe'){if(el.tagName==='defs')return;const transform=(transforms+' '+(el.getAttribute('transform')||'')).trim();part=el.getAttribute('id')||part;const d=pathData(el);if(d)collected.push({el,d,transform,part});for(let child=el.firstChild;child;child=child.nextSibling)if(child.nodeType===1)visit(child,transform,part)}
+visit(doc.documentElement);
+function geometry(d,transform){let v=[],i=[],o=[],closed=false;svgpath(d).transform(transform).unarc().unshort().abs().iterate(seg=>{const cmd=seg[0],last=v[v.length-1];let next;if(cmd==='M'||cmd==='L')next=[seg[1],seg[2]];if(cmd==='H')next=[seg[1],last[1]];if(cmd==='V')next=[last[0],seg[1]];if(cmd==='C'){o[o.length-1]=[seg[1]-last[0],seg[2]-last[1]];next=[seg[5],seg[6]];v.push(next);i.push([seg[3]-next[0],seg[4]-next[1]]);o.push([0,0]);return;}if(cmd==='Q'){next=[seg[3],seg[4]];o[o.length-1]=[(seg[1]-last[0])*2/3,(seg[2]-last[1])*2/3];v.push(next);i.push([(seg[1]-next[0])*2/3,(seg[2]-next[1])*2/3]);o.push([0,0]);return;}if(cmd==='Z'){closed=true;return;}if(next){v.push(next);i.push([0,0]);o.push([0,0]);}});if(closed&&v.length>1&&Math.hypot(v.at(-1)[0]-v[0][0],v.at(-1)[1]-v[0][1])<.01){i[0]=i.pop();v.pop();o.pop();}return {v,i,o,c:closed};}
+const counts={};const bases={globe:0,document:36,swoosh:78,airplane:100};
+const layers=collected.map(({el,d,transform,part},index)=>{const step=counts[part]||0;counts[part]=step+1;const start=(bases[part]||0)+step*3,end=start+30;const fill=el.getAttribute('fill'),stroke=el.getAttribute('stroke');const shapes=[{ty:'sh',nm:part+' outline',ks:staticValue(geometry(d,transform))},{ty:'st',nm:'Traced edge',c:staticValue(color(stroke||fill)),o:staticValue(100),w:staticValue(Number(el.getAttribute('stroke-width')||2)),lc:2,lj:2,bm:0},{ty:'tm',nm:'Draw path',s:staticValue(0),e:tween(start,end,0,100),o:staticValue(0),m:1}];if(fill&&fill!=='none')shapes.push({ty:'fl',nm:'Form color',c:staticValue(color(fill)),o:tween(end,end+15,0,100),r:1,bm:0});return {ddd:0,ind:index+1,ty:4,nm:part+' '+(step+1),sr:1,ks:{o:staticValue(Number(el.getAttribute('opacity')||1)*100),r:staticValue(0),p:staticValue([0,0,0]),a:staticValue([0,0,0]),s:staticValue([100,100,100])},shapes,ip:0,op:184,st:0,bm:0};});
+fs.writeFileSync('public/brand/journey.json',JSON.stringify({v:'5.12.2',fr:30,ip:0,op:184,w:500,h:500,nm:'Docs2Travel — draw the journey',ddd:0,assets:[],layers:layers.reverse(),markers:[]}));
+console.log(`Created ${layers.length} native vector shape layers, with globe, document, swoosh and aircraft trace sequences.`);
+
+

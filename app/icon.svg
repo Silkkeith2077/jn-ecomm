@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="globeBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284C7"/>
+      <stop offset="100%" stop-color="#0B1E3D"/>
+    </linearGradient>
+    
+    <linearGradient id="planeGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE68A"/>
+      <stop offset="35%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#B45309"/>
+    </linearGradient>
+
+    <linearGradient id="planeHighlight" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FEF3C7"/>
+      <stop offset="100%" stop-color="#F59E0B"/>
+    </linearGradient>
+
+    <linearGradient id="accentCyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8"/>
+      <stop offset="100%" stop-color="#0284C7"/>
+    </linearGradient>
+
+    <linearGradient id="docNavy" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F284E"/>
+      <stop offset="100%" stop-color="#071224"/>
+    </linearGradient>
+
+    <linearGradient id="docPage" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#F0F9FF"/>
+    </linearGradient>
+
+    <linearGradient id="goldRibbon" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#B45309"/>
+      <stop offset="40%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#FDE68A"/>
+    </linearGradient>
+
+    <filter id="subtleShadow" x="-10%" y="-10%" width="125%" height="125%">
+      <feDropShadow dx="2" dy="6" stdDeviation="5" flood-color="#0B1E3D" flood-opacity="0.18" />
+    </filter>
+
+    <filter id="planeGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="3" dy="8" stdDeviation="6" flood-color="#D97706" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <g transform="translate(-5, 0)">
+
+    <!-- GLOBE WIREFRAME -->
+    <g id="globe">
+      <!-- Main Outer Orbit Ring -->
+      <circle cx="260" cy="240" r="142" fill="none" stroke="url(#globeBlue)" stroke-width="7" />
+      
+      <!-- Longitude Lines -->
+      <path d="M 260 98 C 325 140, 325 340, 260 382" fill="none" stroke="url(#accentCyan)" stroke-width="4.5" stroke-linecap="round"/>
+      <path d="M 220 106 C 158 160, 158 320, 220 374" fill="none" stroke="url(#accentCyan)" stroke-width="4" stroke-linecap="round"/>
+      <path d="M 300 106 C 362 160, 362 320, 300 374" fill="none" stroke="url(#globeBlue)" stroke-width="4.5" stroke-linecap="round"/>
+      
+      <!-- Latitude Lines -->
+      <path d="M 128 200 Q 260 260 392 200" fill="none" stroke="url(#accentCyan)" stroke-width="4" stroke-linecap="round"/>
+      <path d="M 138 275 Q 260 335 382 275" fill="none" stroke="url(#globeBlue)" stroke-width="4" stroke-linecap="round"/>
+      <path d="M 154 145 Q 260 195 366 145" fill="none" stroke="url(#accentCyan)" stroke-width="3.5" stroke-linecap="round" opacity="0.8"/>
+      
+      <!-- Golden Orbital Flight Ring (Bottom Right) -->
+      <path d="M 235 378 C 315 378, 382 322, 390 236 C 394 190, 376 150, 355 130 C 352 136, 350 144, 356 154 C 372 180, 372 225, 352 270 C 330 318, 282 355, 225 367 Z" fill="url(#goldRibbon)" filter="url(#subtleShadow)" />
+    </g>
+
+    <!-- PASSPORT / TRAVEL DOCUMENT -->
+    <g id="document" transform="translate(190, 260) rotate(-24)" filter="url(#subtleShadow)">
+      <!-- Back Cover -->
+      <rect x="-72" y="-98" width="140" height="186" rx="14" fill="url(#docNavy)" stroke="#0284C7" stroke-width="2.5"/>
+      
+      <!-- Spine Accent -->
+      <line x1="-58" y1="-98" x2="-58" y2="88" stroke="#38BDF8" stroke-width="2" opacity="0.4"/>
+      
+      <!-- Inside Opened Page -->
+      <path d="M -54 -84 C -8 -78, 48 -68, 56 -52 C 62 -20, 56 52, 46 76 C -8 68, -45 74, -54 72 Z" fill="url(#docPage)" stroke="#BAE6FD" stroke-width="2"/>
+      
+      <!-- Passport Biometric / Seal Emblem -->
+      <circle cx="-30" cy="-48" r="15" fill="#E0F2FE" stroke="#0284C7" stroke-width="1.5"/>
+      <path d="M -30 -57 L -21 -48 L -30 -39 L -39 -48 Z" fill="#0284C7"/>
+      
+      <!-- Text & Detail Lines -->
+      <line x1="-10" y1="-52" x2="38" y2="-52" stroke="#0369A1" stroke-width="5" stroke-linecap="round"/>
+      <line x1="-10" y1="-40" x2="30" y2="-40" stroke="#0284C7" stroke-width="4" stroke-linecap="round"/>
+      
+      <line x1="-34" y1="-16" x2="40" y2="-16" stroke="#94A3B8" stroke-width="3.5" stroke-linecap="round"/>
+      <line x1="-34" y1="-2" x2="34" y2="-2" stroke="#94A3B8" stroke-width="3.5" stroke-linecap="round"/>
+      <line x1="-34" y1="12" x2="38" y2="12" stroke="#94A3B8" stroke-width="3.5" stroke-linecap="round"/>
+      <line x1="-34" y1="26" x2="28" y2="26" stroke="#94A3B8" stroke-width="3.5" stroke-linecap="round"/>
+      <line x1="-34" y1="45" x2="42" y2="45" stroke="#0284C7" stroke-width="3" stroke-dasharray="4 3"/>
+    </g>
+
+    <!-- DYNAMIC SWOOSH / RIBBON -->
+    <g id="swoosh" filter="url(#subtleShadow)">
+      <!-- Navy ribbon underside -->
+      <path d="M 120 305 C 135 330, 172 345, 212 325 C 252 305, 292 240, 338 170 C 316 186, 286 236, 246 270 C 206 304, 160 320, 120 305 Z" fill="url(#docNavy)" />
+      <!-- Cyan ribbon surface -->
+      <path d="M 126 315 C 146 350, 192 370, 238 345 C 282 320, 318 260, 348 195 C 332 205, 308 240, 272 275 C 236 310, 186 330, 136 295 Z" fill="url(#accentCyan)" />
+    </g>
+
+    <!-- SOARING GOLD AIRPLANE -->
+    <g id="airplane" transform="translate(365, 175) rotate(-35)" filter="url(#planeGlow)">
+      <!-- Fuselage Base -->
+      <path d="M 0 -68 C 11 -68, 13 -42, 13 16 C 13 42, 10 62, 0 68 C -10 62, -13 42, -13 16 C -13 -42, -11 -68, 0 -68 Z" fill="url(#planeGold)"/>
+      
+      <!-- Cockpit Window -->
+      <path d="M -4 -50 C -4 -56, 4 -56, 4 -50 L 3 -40 L -3 -40 Z" fill="#0B1E3D"/>
+      
+      <!-- Swept Wings -->
+      <path d="M 0 -14 L 88 24 C 91 28, 88 33, 80 32 L 13 14 L 0 16 L -13 14 L -80 32 C -88 33, -91 28, -88 24 L 0 -14 Z" fill="url(#planeGold)"/>
+      
+      <!-- Wingtips (Winglets) -->
+      <path d="M 88 24 L 92 15 L 85 28 Z" fill="#FEF3C7"/>
+      <path d="M -88 24 L -92 15 L -85 28 Z" fill="#B45309"/>
+      
+      <!-- Jet Engines under wings -->
+      <rect x="25" y="10" width="8" height="19" rx="4" fill="#D97706"/>
+      <rect x="-33" y="10" width="8" height="19" rx="4" fill="#B45309"/>
+      
+      <!-- Tail Wings (Horizontal Stabilizers) -->
+      <path d="M 0 46 L 38 64 C 40 66, 38 69, 34 68 L 8 58 L 0 59 L -8 58 L -34 68 C -38 69, -40 66, -38 64 L 0 46 Z" fill="url(#planeGold)"/>
+      
+      <!-- Tail Fin (Vertical Stabilizer) -->
+      <path d="M 0 36 L 4 60 L -4 60 Z" fill="url(#planeHighlight)"/>
+    </g>
+
+  </g>
+</svg>

@@ -1,0 +1,7 @@
+import { BrandMotion } from '@/components/brand-motion';
+import { ContactMap } from '@/components/contact-map';
+import { ContactForm, Icon } from '@/components/store';
+import { brand, whatsapp } from '@/lib/data';
+export default function Contact() { return <section className="section"><div className="brand-intro"><div className="page-intro"><h1>Good journeys begin<br /><em>with a conversation.</em></h1><p>Tell us what you have in mind. We’ll help you find your next step.</p></div><BrandMotion/></div><div className="contact-grid"><div className="contact-info"><h2>Let’s make a connection.</h2><p>Questions about an application? Planning a move? You don’t need to have everything figured out to get in touch.</p><a href={`tel:+${brand.whatsapp}`}><small>CALL OR TEXT</small><strong>{brand.phone}</strong></a><a href={whatsapp('Hello Docs2Travel! I would like to discuss my plans.')} target="_blank" rel="noreferrer"><small>CHAT WITH AN ADVISOR</small><strong>WhatsApp <Icon name="arrow"/></strong></a><a href={`mailto:${brand.email}`}><small>EMAIL US</small><strong className="contact-email">{brand.email}</strong></a><a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(brand.address)}`} target="_blank" rel="noreferrer"><small>ADDRESS</small><strong>{brand.address}</strong></a><div className="contact-note">Your inquiry stays with you until you choose to send it in WhatsApp. Please keep sensitive documents out of your message.</div></div><ContactForm /></div><ContactMap /></section>; }
+
+
