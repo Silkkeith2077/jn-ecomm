@@ -11,26 +11,26 @@
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "lottie-web": "^5.13.0",
-    "next": "16.3.8",
-    "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "next": "^16.4.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
   },
   "devDependencies": {
-    "@remotion/bundler": "^4.0.531",
-    "@remotion/cli": "^4.0.531",
-    "@remotion/renderer": "^4.0.531",
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
+    "@remotion/bundler": "^4.0.534",
+    "@remotion/cli": "^4.0.534",
+    "@remotion/renderer": "^4.0.534",
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^20.19.43",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
     "@xmldom/xmldom": "^0.9.12",
-    "eslint": "^9",
+    "eslint": "^9.39.5",
     "eslint-config-next": "16.3.8",
-    "puppeteer-core": "^25.12.0",
-    "remotion": "^4.0.531",
+    "puppeteer-core": "^25.13.0",
+    "remotion": "^4.0.534",
     "svgpath": "^2.6.0",
-    "tailwindcss": "^4",
-    "typescript": "^5"
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.9.3"
   },
   "packageManager": "bun@1.4.2",
   "ignoreScripts": [
