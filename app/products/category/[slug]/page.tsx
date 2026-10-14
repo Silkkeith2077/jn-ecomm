@@ -1,26 +1,26 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
-import { type ReactNode } from "react";
-import { categories, categoryBySlug, leadParagraph, type Block } from "@/lib/categories";
-import { productsInCategory } from "@/lib/products";
-import { ProductCard } from "@/components/product-card";
-import { Icon } from "@/components/icon";
-import { whatsapp } from "@/lib/data";
+import {notFound} from "next/navigation";
+import {type ReactNode} from "react";
+import {type Block, categories, categoryBySlug, leadParagraph} from "@/lib/categories";
+import {productsInCategory} from "@/lib/products";
+import {ProductCard} from "@/components/product-card";
+import {Icon} from "@/components/icon";
+import {whatsapp} from "@/lib/data";
 
 const SITE = "https://docs2travel.com";
 
 export function generateStaticParams() {
-    return categories.map((c) => ({ slug: c.slug }));
+    return categories.map((c) => ({slug: c.slug}));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
-    const { slug } = await params;
+export async function generateMetadata({params}: { params: Promise<{ slug: string }> }) {
+    const {slug} = await params;
     const c = categoryBySlug(slug);
-    if (!c) return { title: "Category not found" };
+    if (!c) return {title: "Category not found"};
     return {
         title: `${c.name} — buy online`,
         description: leadParagraph(c).slice(0, 155),
-        alternates: { canonical: `/products/category/${c.slug}` },
+        alternates: {canonical: `/products/category/${c.slug}`},
     };
 }
 
@@ -49,8 +49,8 @@ function renderBlocks(blocks: Block[]): ReactNode[] {
     return nodes;
 }
 
-export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
-    const { slug } = await params;
+export default async function CategoryPage({params}: { params: Promise<{ slug: string }> }) {
+    const {slug} = await params;
     const c = categoryBySlug(slug);
     if (!c) notFound();
 
@@ -76,9 +76,9 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
 
     return (
         <>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify(jsonLd)}}/>
 
-            <section className="section">
+            <section className="section documents">
                 <div className="breadcrumb">
                     <Link href="/products">Documents</Link>
                     <span>/</span>
@@ -110,17 +110,17 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
                             target="_blank"
                             rel="noreferrer"
                         >
-                            Ask an advisor <Icon name="arrow" />
+                            Ask an advisor <Icon name="arrow"/>
                         </a>
                         <p className="form-note">No online payment. Quote on request.</p>
                     </aside>
                 </div>
             </section>
 
-            <section className="section">
+            <section className="section documents">
                 <h2>All {c.name.toLowerCase()} documents</h2>
                 <div className="service-grid">
-                    {items.map((p) => <ProductCard key={p.slug} product={p} />)}
+                    {items.map((p) => <ProductCard key={p.slug} product={p}/>)}
                 </div>
             </section>
         </>
