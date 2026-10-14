@@ -19,10 +19,10 @@ export default function ProductCatalog({ initialCategory }: { initialCategory: s
 
   return (
     <section className="section catalog">
-      <div className="page-intro">
-        <h1>Real documents. <em>Real options.</em></h1>
-        <p>Browse passports, licences, visas, ID cards and permits from around the world.</p>
-      </div>
+        <div className="page-intro">
+            <h2>Real documents. <em>Real options.</em></h2>
+            <p>Browse passports, licences, visas, ID cards and permits from around the world.</p>
+        </div>
       <div className="catalog-tools">
         <div className="search">
           <Icon name="search" />

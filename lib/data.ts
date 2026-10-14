@@ -1,4 +1,13 @@
-export const brand = { name: 'Docs2Travel', phone: '+1 408 389 8692', whatsapp: '14083898692', email: 'johnhardings347@gmail.com', address: '3150 Sublette Ave, 63139', telegram: '', x: '' };
+export const brand = {
+    name: 'Docs2Travel',
+    phone: '+44 7880 762663',
+    whatsapp: '447880762663',
+    email: 'johnhardings347@gmail.com',
+    address: '3150 Sublette Ave, 63139',
+    telegram: 'https://telegram.me/Tim8944',
+    telegramHandle: 'Tim8944',
+    x: ''
+};
 export const photos = {
     hero: 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=2000&q=85',
     paris: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=900&q=85',

@@ -1,104 +1,126 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { products, productBySlug, productsInCategory } from "@/lib/products";
+import { categories, categoryBySlug, leadParagraph, type Block } from "@/lib/categories";
+import { productsInCategory } from "@/lib/products";
 import { ProductCard } from "@/components/product-card";
-import { AddButton, Icon } from "@/components/store";
+import { Icon } from "@/components/icon";
 import { whatsapp } from "@/lib/data";
 
 const SITE = "https://docs2travel.com";
 
 export function generateStaticParams() {
-  return products.map((p) => ({ slug: p.slug }));
+  return categories.map((c) => ({ slug: c.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const p = productBySlug(slug);
-  return { title: p?.name ?? "Product not found", description: p?.headline };
+  const c = categoryBySlug(slug);
+  if (!c) return { title: "Category not found" };
+  return {
+    title: `${c.name} — buy online`,
+    description: leadParagraph(c).slice(0, 155),
+    alternates: { canonical: `/products/category/${c.slug}` },
+  };
 }
 
-export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  const p = productBySlug(slug);
-  if (!p) notFound();
+/** Group consecutive list items into a single <ul>. */
+function renderBlocks(blocks: Block[]) {
+  const nodes: React.ReactNode[] = [];
+  let list: string[] = [];
 
-  const related = productsInCategory(p.categorySlug).filter((x) => x.slug !== p.slug).slice(0, 3);
+  const flush = (key: string) => {
+    if (!list.length) return;
+    nodes.push(<ul key={key}>{list.map((t, i) => <li key={i}>{t}</li>)}</ul>);
+    list = [];
+  };
+
+  blocks.forEach((b, i) => {
+    if (b.type === "li") {
+      list.push(b.text);
+      return;
+    }
+    flush(`ul-${i}`);
+    if (b.type === "h2") nodes.push(<h2 key={i}>{b.text}</h2>);
+    else if (b.type === "h3") nodes.push(<h3 key={i}>{b.text}</h3>);
+    else nodes.push(<p key={i}>{b.text}</p>);
+  });
+  flush("ul-end");
+  return nodes;
+}
+
+export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const c = categoryBySlug(slug);
+  if (!c) notFound();
+
+  const items = productsInCategory(c.slug);
+
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "Product",
-    name: p.name,
-    image: [p.imageFull],
-    description: p.summary,
-    category: p.category,
-    url: `${SITE}/products/${p.slug}`,
-    brand: { "@type": "Brand", name: "Docs2Travel" },
-    offers: { "@type": "Offer", url: `${SITE}/products/${p.slug}`, availability: "https://schema.org/InStock" },
+    "@type": "CollectionPage",
+    name: c.name,
+    url: `${SITE}/products/category/${c.slug}`,
+    mainEntity: {
+      "@type": "ItemList",
+      numberOfItems: items.length,
+      itemListElement: items.map((p, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: p.name,
+        url: `${SITE}/products/${p.slug}`,
+      })),
+    },
   };
+
   return (
-    <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <section className="section detail">
-        <div className="breadcrumb">
-          <Link href="/products">Documents</Link>
-          <span>/</span>
-          <Link href={`/products/category/${p.categorySlug}`}>{p.category}</Link>
-          <span>/</span>
-          <span>{p.name}</span>
-        </div>
-        <div className="detail-grid">
-          <img className="detail-photo" src={p.imageFull} alt={p.name} />
-          <div>
-            <div className="detail-service-label">
-              <span className="category-label">{p.category}</span>
-            </div>
-            <h1>{p.name}</h1>
-            <p className="detail-tagline">{p.headline}</p>
-            <div className="quote-box">
-              <h3>Personalized quote</h3>
-              <p>
-                Fees depend on the document, your details and delivery. Speak with an advisor for a
-                clear quote before committing.
-              </p>
-            </div>
-            <AddButton slug={p.slug} />
-            <a
-              className="text-link"
-              href={whatsapp(`Hello Docs2Travel, I would like to ask about ${p.name}.`)}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Ask an advisor <Icon name="arrow" />
-            </a>
-            <p className="form-note">No online payment. No obligation to proceed.</p>
-          </div>
-        </div>
+      <>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-        <div className="detail-information">
-          <div>
-            <h2>About this document</h2>
-            {p.paragraphs.map((para, i) => <p key={i}>{para}</p>)}
+        <section className="section">
+          <div className="breadcrumb">
+            <Link href="/products">Documents</Link>
+            <span>/</span>
+            <span>{c.name}</span>
           </div>
-          <div>
-            <h2>Tags</h2>
-            <p>{p.tags.join(" · ")}</p>
-            <h2>Source</h2>
-            <p>
-              <a className="text-link" href={p.sourceUrl} target="_blank" rel="noreferrer">
-                View original listing <Icon name="external" className="inline-icon" />
+
+          <div className="page-intro">
+            <h1>{c.name}</h1>
+            <p className="detail-tagline">{leadParagraph(c)}</p>
+          </div>
+
+          <div className="category-layout">
+            <div className="category-copy">
+              {renderBlocks(c.blocks.filter((b) => b.text !== leadParagraph(c)))}
+            </div>
+
+            <aside className="category-aside">
+              <h2>{items.length} documents</h2>
+              <ul className="aside-list">
+                {items.slice(0, 8).map((p) => (
+                    <li key={p.slug}>
+                      <Link href={`/products/${p.slug}`}>{p.name}</Link>
+                    </li>
+                ))}
+              </ul>
+              <a
+                  className="button"
+                  href={whatsapp(`Hello Docs2Travel, I have a question about ${c.name.toLowerCase()}.`)}
+                  target="_blank"
+                  rel="noreferrer"
+              >
+                Ask an advisor <Icon name="arrow" />
               </a>
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {related.length > 0 && (
-        <section className="section related">
-          <h2>More {p.category.toLowerCase()} documents</h2>
-          <div className="service-grid">
-            {related.map((x) => <ProductCard key={x.slug} product={x} />)}
+              <p className="form-note">No online payment. Quote on request.</p>
+            </aside>
           </div>
         </section>
-      )}
-    </>
+
+        <section className="section">
+          <h2>All {c.name.toLowerCase()} documents</h2>
+          <div className="service-grid">
+            {items.map((p) => <ProductCard key={p.slug} product={p} />)}
+          </div>
+        </section>
+      </>
   );
 }
