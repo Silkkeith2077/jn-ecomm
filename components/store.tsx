@@ -78,7 +78,8 @@ export function Header() {
     const {items} = useStore();
 
     const [open, setOpen] = useState(false);
-    const [drop, setDrop] = useState(false);
+    // was: const [drop, setDrop] = useState(false);
+    const [drop, setDrop] = useState<string | null>(null);
 
     const cartCount = items.reduce((total, item) => total + item.quantity, 0);
 
@@ -112,54 +113,31 @@ export function Header() {
                     onClick={(e) => {
                         if ((e.target as HTMLElement).closest('a')) {
                             setOpen(false);
-                            setDrop(false);
+                            setDrop(null);
                         }
                     }}
                 >
-                    <Link
-                        className={path === '/' ? 'active' : ''}
-                        href="/"
-                    >
-                        Home
-                    </Link>
+                    <Link className={path === '/' ? 'active' : ''} href="/">Home</Link>
 
-                    <Link
-                        className={path === '/about' ? 'active' : ''}
-                        href="/about"
-                    >
-                        About us
-                    </Link>
+                    <Link className={path === '/about' ? 'active' : ''} href="/about">About us</Link>
 
                     <div className="dropdown">
                         <button
-                            aria-expanded={drop}
-                            onClick={() => setDrop(!drop)}
+                            aria-expanded={drop === 'services'}
+                            onClick={() => setDrop(drop === 'services' ? null : 'services')}
                         >
                             What we do
-                            <span className={drop ? 'rotated' : ''}>
-                                <Icon
-                                    name="chevron"
-                                    className="inline-icon"
-                                />
-                            </span>
+                            <span className={drop === 'services' ? 'rotated' : ''}>
+                <Icon name="chevron" className="inline-icon"/>
+            </span>
                         </button>
 
-                        {drop && (
+                        {drop === 'services' && (
                             <div className="dropdown-menu">
-                                <Link href="/services">
-                                    Explore all services <Icon name="arrow"/>
-                                </Link>
+                                <Link href="/services">Explore all services <Icon name="arrow"/></Link>
 
-                                {[
-                                    'Travel & visas',
-                                    'Documents',
-                                    'Bookings',
-                                    'Study abroad',
-                                ].map((category) => (
-                                    <Link
-                                        key={category}
-                                        href={`/catalog?category=${encodeURIComponent(category)}`}
-                                    >
+                                {['Travel & visas', 'Documents', 'Bookings', 'Study abroad'].map((category) => (
+                                    <Link key={category} href={`/catalog?category=${encodeURIComponent(category)}`}>
                                         {category}
                                     </Link>
                                 ))}
@@ -167,8 +145,36 @@ export function Header() {
                                 <hr/>
 
                                 {categories.map((category) => (
+                                    <Link key={category.slug} href={`/products/category/${category.slug}`}>
+                                        {category.name}
+                                    </Link>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+
+                    <Link className={path.startsWith('/catalog') ? 'active' : ''} href="/catalog">Catalog</Link>
+
+                    <div className="dropdown">
+                        <button
+                            className={path.startsWith('/products') ? 'active' : ''}
+                            aria-expanded={drop === 'documents'}
+                            onClick={() => setDrop(drop === 'documents' ? null : 'documents')}
+                        >
+                            Documents
+                            <span className={drop === 'documents' ? 'rotated' : ''}>
+                <Icon name="chevron" className="inline-icon"/>
+            </span>
+                        </button>
+
+                        {drop === 'documents' && (
+                            <div className="dropdown-menu">
+                                <Link href="/products">Browse all documents <Icon name="arrow"/></Link>
+
+                                {categories.map((category) => (
                                     <Link
                                         key={category.slug}
+                                        className={path === `/products/category/${category.slug}` ? 'active' : ''}
                                         href={`/products/category/${category.slug}`}
                                     >
                                         {category.name}
@@ -178,26 +184,7 @@ export function Header() {
                         )}
                     </div>
 
-                    <Link
-                        className={path.startsWith('/catalog') ? 'active' : ''}
-                        href="/catalog"
-                    >
-                        Catalog
-                    </Link>
-
-                    <Link
-                        className={path.startsWith('/products') ? 'active' : ''}
-                        href="/products"
-                    >
-                        Documents
-                    </Link>
-
-                    <Link
-                        className={path === '/contact' ? 'active' : ''}
-                        href="/contact"
-                    >
-                        Contact
-                    </Link>
+                    <Link className={path === '/contact' ? 'active' : ''} href="/contact">Contact</Link>
                 </nav>
 
                 <div className="header-actions">

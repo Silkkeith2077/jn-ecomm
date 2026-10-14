@@ -96,7 +96,7 @@ export default async function CategoryPage({params}: { params: Promise<{ slug: s
                     </div>
 
                     <aside className="category-aside">
-                        <h2>{items.length} documents</h2>
+                        <h2>{items.length} document{items.length === 1 ? "" : "s"}</h2>
                         <ul className="aside-list">
                             {items.slice(0, 8).map((p) => (
                                 <li key={p.slug}>
